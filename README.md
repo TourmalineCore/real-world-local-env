@@ -55,7 +55,7 @@ kind delete cluster --name real-world
 
 ### Cluster Connection
 
-Then you should be able to go and grap the created k8s cluster config here in the root of the repo `.to-dos-cluster-kubeconfig` and use it in `Lens` to connect to the cluster.
+Then you should be able to go and grap the created k8s cluster config here in the root of the repo `.real-world-cluster-kubeconfig` and use it in `Lens` to connect to the cluster.
 
 In `Lens` you can go to `File` -> `Add Cluster` and put there the copied `config` file content and create it.
 Then you should be able to connect to it.
@@ -68,13 +68,13 @@ To deploy the stack to the cluster at the first time or re-deploy it after a cha
 helmfile cache cleanup && helmfile --environment local --namespace local -f deploy/helmfile.yaml apply
 ```
 
-When the command is complete and all k8s pods are running inside **`local`** namespace you should be able to navigate to http://to-dos.local.tourmalinecore.internal/ in your browser and see `Hello World`.
+When the command is complete and all k8s pods are running inside **`local`** namespace you should be able to navigate to http://real-world.local.tourmalinecore.internal/ in your browser and see `Hello World`.
 
 >Note: at the first time this really takes a while.
 
 >Note: `helmfile cache cleanup` is needed to force to re-fetch remote values.yaml files from git repos. Otherwise it will never invalidate them. Links: https://github.com/roboll/helmfile/issues/720#issuecomment-1516613493 and https://helmfile.readthedocs.io/en/latest/#cache.
 
->Note: if one of your services version was updated e.g. a newer version was published to `to-dos-ui:latest` you won't see the changes executing `helmfile apply` command. Instead you need to remove the respective service Pod that it can be re-created by its Deployment and fetch the latest docker image. 
+>Note: if one of your services version was updated e.g. a newer version was published to `real-world-ui:latest` you won't see the changes executing `helmfile apply` command. Instead you need to remove the respective service Pod that it can be re-created by its Deployment and fetch the latest docker image. 
 
 ### Debugging Helm Charts
 
@@ -86,13 +86,13 @@ helmfile cache cleanup && helmfile --environment local --namespace local -f depl
 
 ## Services URLs
 
-- ui: http://to-dos.local.tourmalinecore.internal/to-dos
-- api: http://to-dos.local.tourmalinecore.internal/api/to-dos-api/api
+- ui: http://real-world.local.tourmalinecore.internal/to-dos
+- api: http://real-world.local.tourmalinecore.internal/api/
 
 ## Troubleshooting
 - OpenLens not showing any pods, deployments, etc.. Make sure the "Namespace" in view "Workloads" is set to "`local`" or "`All namespaces`"
 
-- cannot open http://to-dos.local.tourmalinecore.internal/
+- cannot open http://real-world.local.tourmalinecore.internal/
     ```
     This site can’t be reached to-dos.local.tourmalinecore.internal refused to connect.
     ```
@@ -100,7 +100,7 @@ helmfile cache cleanup && helmfile --environment local --namespace local -f depl
 - cannot install to-dos-ui chart
     ```
     COMBINED OUTPUT:
-    Release "to-dos-ui" does not exist. Installing it now.
+    Release "real-world-ui" does not exist. Installing it now.
     coalesce.go:286: warning: cannot overwrite table with non table for nginx.ingress.annotations (map[])
     coalesce.go:286: warning: cannot overwrite table with non table for nginx.ingress.annotations (map[])
     Error: context deadline exceeded
@@ -108,7 +108,7 @@ helmfile cache cleanup && helmfile --environment local --namespace local -f depl
     if you see this after you try to run `helmfile apply` command, simply retry `helmfile apply` command.
 
 - in case of any other weird issue:
-    1. Remove the `to-dos-control-plane` docker container.
+    1. Remove the `real-world-control-plane` docker container.
     2. Remove the cluster from Lens.
     3. Re-try over starting from `kind create` command.
 
