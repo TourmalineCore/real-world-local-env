@@ -19,6 +19,17 @@ releases:
     values:
       - values-ingress-nginx.yaml.gotmpl
 
+  - name: postgresql
+    namespace: default
+    labels:
+      app: postgresql
+    wait: true
+    chart: bitnami/postgresql
+    version: 12.2.7
+    values:
+      - values-postgre.yaml
+      - values-postgre.yaml.gotmpl
+
   - name: real-world-api
     labels:
       app: real-world-api
@@ -34,7 +45,8 @@ releases:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
       - git::https://github.com/TourmalineCore/real-world-api.git@/ci/values.yaml?ref=master
       - values.yaml.gotmpl
-
+      - values-real-world-api.yaml.gotmpl
+  
   - name: real-world-auth-api
     labels:
       app: real-world-auth-api
@@ -50,6 +62,7 @@ releases:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
       - git::https://github.com/TourmalineCore/real-world-auth-api.git@/ci/values.yaml?ref=master
       - values.yaml.gotmpl
+      - values-real-world-auth-api.yaml.gotmpl
 
   - name: real-world-accounts-api
     labels:
@@ -66,3 +79,19 @@ releases:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
       - git::https://github.com/TourmalineCore/real-world-accounts-api.git@/ci/values.yaml?ref=master
       - values.yaml.gotmpl
+      - values-real-world-accounts-api.yaml.gotmpl
+
+  - name: real-world-auth-ui
+    labels:
+      app: real-world-auth-ui
+    wait: true
+    chart: bitnami/nginx
+    # after 15.3.5 our docker file or setup can no longer start, need to investigate what is wrong for the newer versions
+    version: 15.3.5
+    # it won't work anyway until ingress controller is created
+    # thus we wait for it to be ready first
+    values:
+      # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
+      - git::https://github.com/TourmalineCore/real-world-auth-ui.git@/ci/values.yaml?ref=feature/add-service-template
+      - values.yaml.gotmpl
+      - values-real-world-auth-ui.yaml.gotmpl
