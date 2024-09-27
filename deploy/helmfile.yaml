@@ -110,3 +110,18 @@ releases:
       - git::https://github.com/TourmalineCore/real-world-ui.git@/ci/values.yaml?ref=feature/add-service-template
       - values.yaml.gotmpl
       - values-real-world-ui.yaml.gotmpl
+
+  - name: real-world-accounts-ui
+    labels:
+      app: real-world-accounts-ui
+    wait: true
+    chart: bitnami/nginx
+    # after 15.3.5 our docker file or setup can no longer start, need to investigate what is wrong for the newer versions
+    version: 15.3.5
+    # it won't work anyway until ingress controller is created
+    # thus we wait for it to be ready first
+    values:
+      # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
+      - git::https://github.com/TourmalineCore/real-world-accounts-ui.git@/ci/values.yaml?ref=feature/add-service-template
+      - values.yaml.gotmpl
+      - values-real-world-accounts-ui.yaml.gotmpl
