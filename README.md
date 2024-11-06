@@ -86,8 +86,8 @@ helmfile cache cleanup && helmfile --environment local --namespace local -f depl
 
 ## Services URLs
 
-- ui: http://real-world.local.tourmalinecore.internal/to-dos
-- api: http://real-world.local.tourmalinecore.internal/api/
+- ui: http://real-world.local.tourmalinecore.internal:40090/to-dos
+- api: http://real-world.local.tourmalinecore.internal:40090/api/
 
 ## Troubleshooting
 - OpenLens not showing any pods, deployments, etc.. Make sure the "Namespace" in view "Workloads" is set to "`local`" or "`All namespaces`"
