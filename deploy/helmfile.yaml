@@ -27,7 +27,6 @@ releases:
     chart: bitnami/postgresql
     version: 12.2.7
     values:
-      - values-postgre.yaml
       - values-postgre.yaml.gotmpl
 
   - name: real-world-api
@@ -41,6 +40,7 @@ releases:
     # thus we wait for it to be ready first
     needs: 
       - ingress-nginx
+      - postgresql
     values:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
       - git::https://github.com/TourmalineCore/real-world-api.git@/ci/values.yaml?ref=master
@@ -58,6 +58,7 @@ releases:
     # thus we wait for it to be ready first
     needs: 
       - ingress-nginx
+      - postgresql
     values:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
       - git::https://github.com/TourmalineCore/real-world-auth-api.git@/ci/values.yaml?ref=master
@@ -75,6 +76,7 @@ releases:
     # thus we wait for it to be ready first
     needs: 
       - ingress-nginx
+      - postgresql
     values:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
       - git::https://github.com/TourmalineCore/real-world-accounts-api.git@/ci/values.yaml?ref=master
@@ -90,6 +92,8 @@ releases:
     version: 15.3.5
     # it won't work anyway until ingress controller is created
     # thus we wait for it to be ready first
+    needs:
+      - real-world-auth-api
     values:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
       - git::https://github.com/TourmalineCore/real-world-auth-ui.git@/ci/values.yaml?ref=feature/add-service-template
@@ -105,6 +109,8 @@ releases:
     version: 15.3.5
     # it won't work anyway until ingress controller is created
     # thus we wait for it to be ready first
+    needs:
+      - real-world-api
     values:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
       - git::https://github.com/TourmalineCore/real-world-ui.git@/ci/values.yaml?ref=feature/add-service-template
@@ -120,6 +126,8 @@ releases:
     version: 15.3.5
     # it won't work anyway until ingress controller is created
     # thus we wait for it to be ready first
+    needs:
+      - real-world-accounts-api
     values:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
       - git::https://github.com/TourmalineCore/real-world-accounts-ui.git@/ci/values.yaml?ref=feature/add-service-template
