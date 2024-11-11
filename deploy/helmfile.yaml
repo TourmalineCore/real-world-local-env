@@ -96,7 +96,7 @@ releases:
       - real-world-auth-api
     values:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
-      - git::https://github.com/TourmalineCore/real-world-auth-ui.git@/ci/values.yaml?ref=feature/add-service-template
+      - git::https://github.com/TourmalineCore/real-world-auth-ui.git@/ci/values.yaml?ref=master
       - values.yaml.gotmpl
       - values-real-world-auth-ui.yaml.gotmpl
 
@@ -113,7 +113,7 @@ releases:
       - real-world-api
     values:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
-      - git::https://github.com/TourmalineCore/real-world-ui.git@/ci/values.yaml?ref=feature/add-service-template
+      - git::https://github.com/TourmalineCore/real-world-ui.git@/ci/values.yaml?ref=master
       - values.yaml.gotmpl
       - values-real-world-ui.yaml.gotmpl
 
@@ -130,6 +130,6 @@ releases:
       - real-world-accounts-api
     values:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
-      - git::https://github.com/TourmalineCore/real-world-accounts-ui.git@/ci/values.yaml?ref=feature/add-service-template
+      - git::https://github.com/TourmalineCore/real-world-accounts-ui.git@/ci/values.yaml?ref=master
       - values.yaml.gotmpl
       - values-real-world-accounts-ui.yaml.gotmpl
