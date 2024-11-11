@@ -1,0 +1,135 @@
+repositories:
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
+
+environments:
+  local:
+    values:
+      - environments/{{ .Environment.Name }}/values.yaml.gotmpl
+
+releases:
+  - name: ingress-nginx
+    labels:
+      app: ingress-nginx
+    wait: true
+    chart: ingress-nginx/ingress-nginx
+    version: 4.10.1
+    values:
+      - values-ingress-nginx.yaml.gotmpl
+
+  - name: postgresql
+    namespace: default
+    labels:
+      app: postgresql
+    wait: true
+    chart: bitnami/postgresql
+    version: 12.2.7
+    values:
+      - values-postgre.yaml.gotmpl
+
+  - name: real-world-api
+    labels:
+      app: real-world-api
+    wait: true
+    chart: bitnami/nginx
+    # after 15.3.5 our docker file or setup can no longer start, need to investigate what is wrong for the newer versions
+    version: 15.3.5
+    # it won't work anyway until ingress controller is created
+    # thus we wait for it to be ready first
+    needs: 
+      - ingress-nginx
+      - postgresql
+    values:
+      # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
+      - git::https://github.com/TourmalineCore/real-world-api.git@/ci/values.yaml?ref=master
+      - values.yaml.gotmpl
+      - values-real-world-api.yaml.gotmpl
+  
+  - name: real-world-auth-api
+    labels:
+      app: real-world-auth-api
+    wait: true
+    chart: bitnami/nginx
+    # after 15.3.5 our docker file or setup can no longer start, need to investigate what is wrong for the newer versions
+    version: 15.3.5
+    # it won't work anyway until ingress controller is created
+    # thus we wait for it to be ready first
+    needs: 
+      - ingress-nginx
+      - postgresql
+    values:
+      # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
+      - git::https://github.com/TourmalineCore/real-world-auth-api.git@/ci/values.yaml?ref=master
+      - values.yaml.gotmpl
+      - values-real-world-auth-api.yaml.gotmpl
+
+  - name: real-world-accounts-api
+    labels:
+      app: real-world-accounts-api
+    wait: true
+    chart: bitnami/nginx
+    # after 15.3.5 our docker file or setup can no longer start, need to investigate what is wrong for the newer versions
+    version: 15.3.5
+    # it won't work anyway until ingress controller is created
+    # thus we wait for it to be ready first
+    needs: 
+      - ingress-nginx
+      - postgresql
+    values:
+      # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
+      - git::https://github.com/TourmalineCore/real-world-accounts-api.git@/ci/values.yaml?ref=master
+      - values.yaml.gotmpl
+      - values-real-world-accounts-api.yaml.gotmpl
+
+  - name: real-world-auth-ui
+    labels:
+      app: real-world-auth-ui
+    wait: true
+    chart: bitnami/nginx
+    # after 15.3.5 our docker file or setup can no longer start, need to investigate what is wrong for the newer versions
+    version: 15.3.5
+    # it won't work anyway until ingress controller is created
+    # thus we wait for it to be ready first
+    needs:
+      - real-world-auth-api
+    values:
+      # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
+      - git::https://github.com/TourmalineCore/real-world-auth-ui.git@/ci/values.yaml?ref=master
+      - values.yaml.gotmpl
+      - values-real-world-auth-ui.yaml.gotmpl
+
+  - name: real-world-ui
+    labels:
+      app: real-world-ui
+    wait: true
+    chart: bitnami/nginx
+    # after 15.3.5 our docker file or setup can no longer start, need to investigate what is wrong for the newer versions
+    version: 15.3.5
+    # it won't work anyway until ingress controller is created
+    # thus we wait for it to be ready first
+    needs:
+      - real-world-api
+    values:
+      # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
+      - git::https://github.com/TourmalineCore/real-world-ui.git@/ci/values.yaml?ref=master
+      - values.yaml.gotmpl
+      - values-real-world-ui.yaml.gotmpl
+
+  - name: real-world-accounts-ui
+    labels:
+      app: real-world-accounts-ui
+    wait: true
+    chart: bitnami/nginx
+    # after 15.3.5 our docker file or setup can no longer start, need to investigate what is wrong for the newer versions
+    version: 15.3.5
+    # it won't work anyway until ingress controller is created
+    # thus we wait for it to be ready first
+    needs:
+      - real-world-accounts-api
+    values:
+      # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
+      - git::https://github.com/TourmalineCore/real-world-accounts-ui.git@/ci/values.yaml?ref=master
+      - values.yaml.gotmpl
+      - values-real-world-accounts-ui.yaml.gotmpl
