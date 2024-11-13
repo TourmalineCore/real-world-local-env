@@ -119,3 +119,19 @@ helmfile cache cleanup && helmfile --environment local --namespace local -f depl
 - https://github.com/kubernetes-sigs/kind/issues/3196
 - https://github.com/devcontainers/features
 - https://fenyuk.medium.com/helm-for-kubernetes-helmfile-c22d1ab5e604
+
+
+## Credentials
+To sign in as guest:
+Login: guest
+Password: Kbr%$n0*d0(0HWN_1Cl3
+
+To sign in as admin:
+Login: admin
+Password: %v)dV4_Gu%7d3L)Rx4N2
+
+## Pages
+To open to dos list, go to: http://real-world.local.tourmalinecore.internal:40090/to-dos
+To open account-management (accounts), go to:http://real-world.local.tourmalinecore.internal:40090/account-management/accounts
+To open account-management (tenants), go to:http://real-world.local.tourmalinecore.internal:40090/account-management/tenants
+To open account-management (roles), go to:http://real-world.local.tourmalinecore.internal:40090/account-management/roles
